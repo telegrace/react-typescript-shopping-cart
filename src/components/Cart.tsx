@@ -1,7 +1,6 @@
 import React from "react";
 import { FiShoppingCart } from "react-icons/fi";
 import { AppStateContext } from "./AppState";
-
 import CartCSS from "./Cart.module.css";
 
 interface Props {}
