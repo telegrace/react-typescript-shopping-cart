@@ -33,11 +33,6 @@ interface AddToCartAction extends Action<"ADD_TO_CART"> {
 interface Action<T> {
 	type: T;
 }
-interface AddToCartAction extends Action<"ADD_TO_CART"> {
-	payload: {
-		item: Omit<CartItem, "quantity">;
-	};
-}
 
 interface IntializeCartAction extends Action<"INITIALIZE_CART"> {
 	payload: {
@@ -45,9 +40,26 @@ interface IntializeCartAction extends Action<"INITIALIZE_CART"> {
 	};
 }
 
+interface RemovePizzasFromCartAction extends Action<"REMOVE_PIZZAS_FROM_CART"> {
+	payload: {
+		item: Omit<CartItem, "quantity">;
+	};
+}
+
+interface RemoveOnePizzaFromCartAction
+	extends Action<"REMOVE_ONE_PIZZA_FROM_CART"> {
+	payload: {
+		item: Omit<CartItem, "quantity">;
+	};
+}
+
 const reducer = (
 	state: AppStateValue,
-	action: AddToCartAction | IntializeCartAction
+	action:
+		| AddToCartAction
+		| IntializeCartAction
+		| RemovePizzasFromCartAction
+		| RemoveOnePizzaFromCartAction
 ) => {
 	if (action.type === "ADD_TO_CART") {
 		const itemToAdd = action.payload.item;
@@ -73,15 +85,28 @@ const reducer = (
 		};
 	} else if (action.type === "INITIALIZE_CART") {
 		return { ...state, cart: action.payload.cart };
+		//above is fine, don't touch//
+		//below not okay//
+	} else if (action.type === "REMOVE_PIZZAS_FROM_CART") {
+		const pizzasToRemove = action.payload.item;
+		const filteredCart = state.cart.items.filter(function (el) {
+			return el.name != pizzasToRemove;
+		});
+		return filteredCart;
+	} else if (action.type === "REMOVE_ONE_PIZZA_FROM_CART") {
+		const onePizzaToRemove = action.payload.item;
+
+		return { ...state };
 	}
 	return state;
+	// above not okay///
 };
 
 export const useStateDispatch = () => {
 	const stateDispatch = useContext(AppDispatchContext);
 	if (!stateDispatch) {
 		throw new Error(
-			"useStetState was called outside of the AppSetStateContext provider"
+			"useSetState was called outside of the AppSetStateContext provider"
 		);
 	}
 	return stateDispatch;

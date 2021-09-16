@@ -1,5 +1,7 @@
 import React, { createRef } from "react";
 import { FiShoppingCart } from "react-icons/fi";
+import { BsTrash } from "react-icons/bs";
+import { AiOutlineMinusCircle } from "react-icons/ai";
 import { AppStateContext } from "./AppState";
 import CartCSS from "./Cart.module.css";
 
@@ -35,6 +37,14 @@ class Cart extends React.Component<Props, State> {
 		) {
 			this.setState({ isOpen: false });
 		}
+	};
+
+	handleRemoveOnePizza = (item) => {
+		console.log("Remove one pizza", item);
+	};
+
+	handleRemovePizzas = (item) => {
+		console.log("Remove pizzas", item);
 	};
 
 	componentDidMount() {
@@ -80,6 +90,18 @@ class Cart extends React.Component<Props, State> {
 											<li key={item.id}>
 												{item.name} &times;
 												{item.quantity}
+												<AiOutlineMinusCircle
+													onClick={this.handleRemoveOnePizza.bind(
+														this,
+														item
+													)}
+												/>
+												<BsTrash
+													onClick={this.handleRemovePizzas.bind(
+														this,
+														item
+													)}
+												/>
 											</li>
 										);
 									})}

@@ -21,6 +21,8 @@
 }
 
 .cartDropDown li {
+	display: flex;
+	justify-content: space-between;
 	border-bottom: 1px solid #ccc;
 	padding: 5px 0;
 }
